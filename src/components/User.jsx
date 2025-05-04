@@ -3,7 +3,6 @@ import axios from 'axios'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { Button } from 'bootstrap';
 
 export default function User() {
 
@@ -13,25 +12,22 @@ export default function User() {
   const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
 
 
-  function callSearch(e)
-  {
-     e.preventDefault();
+  function callSearch(e) {
+    e.preventDefault();
     const searchVal = e.target.value;
 
-    if(searchVal=== "")
-      {
-       setUserData(duplicate);
-       return;
-      }
+    if (searchVal === "") {
+      setUserData(duplicate);
+      return;
+    }
 
-    const filterData = userData.filter((item)=>
-    {
-  
+    const filterData = userData.filter((item) => {
+
       if (item.name.toLowerCase()
         .includes(searchVal.toLowerCase())) { return item; }
     })
 
-   setUserData(filterData);
+    setUserData(filterData);
 
     console.log(filterData);
   }
@@ -41,8 +37,6 @@ export default function User() {
     axios.get('http://localhost:8080/user/allUsers').then((response) => {
       setUserData(response.data);
       setDuplicate(response.data);
-
-      //console.log(response.data);
     }).catch(error => {
       console.error(error);
     });
@@ -75,7 +69,7 @@ export default function User() {
       name: 'Email',
       selector: (row) => row.mail,
       sortable: true
-    },
+    }
   ]
 
 
@@ -93,11 +87,11 @@ export default function User() {
         title="User List"
         expandableRows
         subHeader
-        subHeaderComponent={<input type='text' placeholder='Search By Name' onChange={(e)=>callSearch(e)}/>}
+        subHeaderComponent={<input type='text' placeholder='Search By Name' onChange={(e) => callSearch(e)} />}
         theme='default'
-          striped="True"
-          actions = {<button>Export</button>}
-			expandableRowsComponent={ExpandedComponent} />
+        striped="True"
+        actions={<button onClick = {()=>window.print()}>Export</button>}
+        expandableRowsComponent={ExpandedComponent} />
     </>
   )
 
